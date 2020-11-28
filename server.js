@@ -25,7 +25,7 @@ const db = new sqlite3.Database(dbFile);
 db.serialize(() => {
   if (!exists) {
     db.run(
-      "CREATE TABLE Dreams (id INTEGER PRIMARY KEY AUTOINCREMENT, dream TEXT)"
+      "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, dream TEXT)"
     );
     console.log("New table Dreams created!");
 
