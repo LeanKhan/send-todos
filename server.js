@@ -63,8 +63,8 @@ app.post("/addDream", (request, response) => {
 
   // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
   if (!process.env.DISALLOW_WRITE) {
-    const cleansedDream = cleanseString(request.body.dream);
-    db.run(`INSERT INTO Dreams (dream) VALUES (?)`, cleansedDream, error => {
+    const cleansedTodo = cleanseString(request.body.todo);
+    db.run(`INSERT INTO Todos (todo) VALUES (?)`, cleansedTodo, error => {
       if (error) {
         response.send({ message: "error!" });
       } else {
