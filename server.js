@@ -27,16 +27,16 @@ db.serialize(() => {
     //   "CREATE TABLE if not exist Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT, from TEXT, to TEXT, created TEXT, modified TEXT, completed BOOLEAN)"
     // );
   
-  db.run("CREATE TABLE user (id INT, dt TEXT)")
+  // db.run("CREATE TABLE user (id INT, dt TEXT)")
   
     console.log("New table Dreams created!");
 
     // insert default dreams
-    db.serialize(() => {
-      db.run(
-        'INSERT INTO Todos (todo, from, to, created, modified, completed) VALUES ("Find and count some sheep", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false), ("Do somethings else", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false)'
-      );
-    });
+    // db.serialize(() => {
+    //   db.run(
+    //     'INSERT INTO Todos (todo, from, to, created, modified, completed) VALUES ("Find and count some sheep", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false), ("Do somethings else", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false)'
+    //   );
+    // });
   
   
     console.log('Database "Todos" ready to go!');
