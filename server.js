@@ -23,36 +23,52 @@ const db = new sqlite3.Database(dbFile);
 
 // if ./.data/sqlite.db does not exist, create it, otherwise print records to console
 db.serialize(() => {
-  if (!exists) {
-    db.run(
-      "CREATE TABLE Todos if not exists (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT, from TEXT, to TEXT, created DATE, modified DATE, completed BOOLEAN)"
-    );
+    // db.run(
+    //   "CREATE TABLE if not exist Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT, from TEXT, to TEXT, created TEXT, modified TEXT, completed BOOLEAN)"
+    // );
+  
+  db.run("CREATE TABLE user (id INT, dt TEXT)")
+  
     console.log("New table Dreams created!");
 
     // insert default dreams
     db.serialize(() => {
       db.run(
-        'INSERT INTO Todos (todo) VALUES ("Find and count some sheep", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false), ("Do somethings else", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false)'
+        'INSERT INTO Todos (todo, from, to, created, modified, completed) VALUES ("Find and count some sheep", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false), ("Do somethings else", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false)'
       );
     });
-  } else {
+  
+  
     console.log('Database "Todos" ready to go!');
     db.each("SELECT * from Todos", (err, row) => {
+      if(err) {
+      return  console.error(err);
+      }
+      
       if (row) {
         console.log(`record: ${row.todo}`);
       }
     });
   }
-});
+);
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   response.sendFile(`${__dirname}/views/index.html`);
 });
 
+app.get("/abc", (request, response) => {
+  response.send('yo!');
+});
+
 // endpoint to get all the dreams in the database
-app.get("/getDreams", (request, response) => {
-  db.all("SELECT * from Dreams", (err, rows) => {
+app.get("/todos", (request, response) => {
+  console.log('here :)')
+  db.all("SELECT * from Todos", (err, rows) => {
+    
+    if(err) {
+      return response.send(err);
+    }
     response.send(JSON.stringify(rows));
   });
 });
