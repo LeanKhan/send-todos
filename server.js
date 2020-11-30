@@ -74,6 +74,23 @@ app.post("/addDream", (request, response) => {
   }
 });
 
+// endpoint to add a dream to the database
+app.post("/addDream", (request, response) => {
+  console.log(`add to dreams ${request.body}`);
+
+  // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
+  if (!process.env.DISALLOW_WRITE) {
+    const cleansedTodo = cleanseString(request.body.todo);
+    db.run(`INSERT INTO Todos (todo) VALUES (?)`, cleansedTodo, error => {
+      if (error) {
+        response.send({ message: "error!" });
+      } else {
+        response.send({ message: "success" });
+      }
+    });
+  }
+});
+
 // endpoint to clear dreams from the database
 app.get("/clearDreams", (request, response) => {
   // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
