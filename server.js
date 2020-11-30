@@ -25,21 +25,21 @@ const db = new sqlite3.Database(dbFile);
 db.serialize(() => {
   if (!exists) {
     db.run(
-      "CREATE TABLE Users (id INTEGER PRIMARY KEY AUTOINCREMENT, dream TEXT)"
+      "CREATE TABLE Todos if not exists (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT, from TEXT, to TEXT, created DATE, modified DATE, completed BOOLEAN)"
     );
     console.log("New table Dreams created!");
 
     // insert default dreams
     db.serialize(() => {
       db.run(
-        'INSERT INTO Dreams (dream) VALUES ("Find and count some sheep"), ("Climb a really tall mountain"), ("Wash the dishes")'
+        'INSERT INTO Todos (todo) VALUES ("Find and count some sheep", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false), ("Do somethings else", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false)'
       );
     });
   } else {
-    console.log('Database "Dreams" ready to go!');
-    db.each("SELECT * from Dreams", (err, row) => {
+    console.log('Database "Todos" ready to go!');
+    db.each("SELECT * from Todos", (err, row) => {
       if (row) {
-        console.log(`record: ${row.dream}`);
+        console.log(`record: ${row.todo}`);
       }
     });
   }
@@ -74,8 +74,8 @@ app.post("/addDream", (request, response) => {
   }
 });
 
-// endpoint to add a dream to the database
-app.post("/addDream", (request, response) => {
+// endpoint to send todo to user
+app.post("/new", (request, response) => {
   console.log(`add to dreams ${request.body}`);
 
   // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
