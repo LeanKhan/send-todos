@@ -24,7 +24,8 @@ const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database(dbFile);
 
 // if ./.data/sqlite.db does not exist, create it, otherwise print records to console
-db.serialize(() => {
+if(!exists){
+  db.serialize(() => {
   db.run(
     "CREATE TABLE IF NOT EXISTS Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT)"
   );
@@ -36,6 +37,8 @@ db.serialize(() => {
     'INSERT INTO Todos (todo) VALUES ("Find and count some sheep"), ("emmanuel.segunlean@aun.edu.ng"), ("eslean20@gmail.com")'
   );
 });
+}
+
 
 db.serialize(() => {
   db.each("SELECT * from Todos", (err, row) => {
@@ -109,14 +112,14 @@ app.post("/new", (request, response) => {
 });
 
 // endpoint to clear dreams from the database
-app.get("/clearDreams", (request, response) => {
+app.get("/clearTodos", (request, response) => {
   // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
   if (!process.env.DISALLOW_WRITE) {
     db.each(
-      "SELECT * from Dreams",
+      "SELECT * from Todos",
       (err, row) => {
         console.log("row", row);
-        db.run(`DELETE FROM Dreams WHERE ID=?`, row.id, error => {
+        db.run(`DELETE FROM Todos WHERE ID=?`, row.id, error => {
           if (row) {
             console.log(`deleted row ${row.id}`);
           }
