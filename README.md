@@ -27,4 +27,16 @@ Click `Show` in the header to see your app live. Updates to your code will insta
 
 ### Requirements
 
-- It should be able to add a todo with todo, to, from, created date
+[x] It should be able to add a todo
+
+[ ] It should be able to render todos you added
+
+[ ] Todos should be added with to, from, created and completed fields
+
+[ ] It should render sent todos by user
+
+[ ] It should render received todos by user
+
+---- v0.2
+
+[ ] Should be able to verify person sending the todo
