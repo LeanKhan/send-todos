@@ -6,6 +6,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const fs = require("fs");
+const eta = require("eta");
+// Returns: '<p>My favorite kind of cake is: Chocolate!</p>'
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -23,33 +25,31 @@ const db = new sqlite3.Database(dbFile);
 
 // if ./.data/sqlite.db does not exist, create it, otherwise print records to console
 db.serialize(() => {
-    db.run(
-      "CREATE TABLE IF NOT EXISTS Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT)"
-    );
-        console.log("New table Dreams created!");
-
+  db.run(
+    "CREATE TABLE IF NOT EXISTS Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT)"
+  );
+  console.log("New table Dreams created!");
 });
-    // insert default dreams
-    db.serialize(() => {
-      db.run(
-        'INSERT INTO Todos (todo) VALUES ("Find and count some sheep"), ("emmanuel.segunlean@aun.edu.ng"), ("eslean20@gmail.com")'
-      );
-    });
-  
+// insert default dreams
+db.serialize(() => {
+  db.run(
+    'INSERT INTO Todos (todo) VALUES ("Find and count some sheep"), ("emmanuel.segunlean@aun.edu.ng"), ("eslean20@gmail.com")'
+  );
+});
 
 db.serialize(() => {
-   db.each("SELECT * from Todos", (err, row) => {
-      if(err) {
-      return  console.error(err);
-      }
-      
-      if (row) {
-        console.log(`record: ${row.todo}`);
-      }
-    });
-  
-        console.log('Database "Todos" ready to go!');
-});   
+  db.each("SELECT * from Todos", (err, row) => {
+    if (err) {
+      return console.error(err);
+    }
+
+    if (row) {
+      console.log(`record: ${row.todo}`);
+    }
+  });
+
+  console.log('Database "Todos" ready to go!');
+});
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
@@ -57,18 +57,18 @@ app.get("/", (request, response) => {
 });
 
 app.get("/abc", (request, response) => {
-  response.send('yo!');
+  response.send("yo!");
 });
 
 // endpoint to get all the dreams in the database
 app.get("/todos", (request, response) => {
-  console.log('here :)')
+  console.log("here :)");
   db.all("SELECT * from Todos", (err, rows) => {
-    
-    if(err) {
+    if (err) {
       return response.send(err);
     }
-    response.send();
+
+    response.send(JSON.stringify(rows));
   });
 });
 
@@ -104,8 +104,8 @@ app.post("/new", (request, response) => {
       }
     });
   }
-  
-  response.send(`<p>Todo added successfully!</p><p><a href="/">home</a></p>`)
+
+  response.send(`<p>Todo added successfully!</p><p><a href="/">home</a></p>`);
 });
 
 // endpoint to clear dreams from the database
