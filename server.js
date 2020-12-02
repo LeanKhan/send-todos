@@ -24,7 +24,7 @@ const db = new sqlite3.Database(dbFile);
 // if ./.data/sqlite.db does not exist, create it, otherwise print records to console
 db.serialize(() => {
     db.run(
-      "CREATE TABLE Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT)"
+      "CREATE TABLE Todos if not exists (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT)"
     );
         console.log("New table Dreams created!");
 
@@ -32,7 +32,7 @@ db.serialize(() => {
     // insert default dreams
     db.serialize(() => {
       db.run(
-        'INSERT INTO Todos (todo) VALUES ("Find and count some sheep"), ("emmanuel.segunlean@aun.edu.ng"), ("eslean20@gmail.com"), new Date(), null, false), ("Do somethings else", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false)'
+        'INSERT INTO Todos (todo) VALUES ("Find and count some sheep"), ("emmanuel.segunlean@aun.edu.ng"), ("eslean20@gmail.com")'
       );
     });
   
