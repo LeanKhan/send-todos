@@ -23,24 +23,22 @@ const db = new sqlite3.Database(dbFile);
 
 // if ./.data/sqlite.db does not exist, create it, otherwise print records to console
 db.serialize(() => {
-    // db.run(
-    //   "CREATE TABLE if not exist Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT, from TEXT, to TEXT, created TEXT, modified TEXT, completed BOOLEAN)"
-    // );
-  
-  // db.run("CREATE TABLE user (id INT, dt TEXT)")
-  
-    console.log("New table Dreams created!");
+    db.run(
+      "CREATE TABLE Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT)"
+    );
+        console.log("New table Dreams created!");
 
+});
     // insert default dreams
-    // db.serialize(() => {
-    //   db.run(
-    //     'INSERT INTO Todos (todo, from, to, created, modified, completed) VALUES ("Find and count some sheep", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false), ("Do somethings else", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false)'
-    //   );
-    // });
+    db.serialize(() => {
+      db.run(
+        'INSERT INTO Todos (todo) VALUES ("Find and count some sheep"), ("emmanuel.segunlean@aun.edu.ng"), ("eslean20@gmail.com"), new Date(), null, false), ("Do somethings else", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", new Date(), null, false)'
+      );
+    });
   
-  
-    console.log('Database "Todos" ready to go!');
-    db.each("SELECT * from Todos", (err, row) => {
+
+db.serialize(() => {
+   db.each("SELECT * from Todos", (err, row) => {
       if(err) {
       return  console.error(err);
       }
@@ -49,8 +47,9 @@ db.serialize(() => {
         console.log(`record: ${row.todo}`);
       }
     });
-  }
-);
+  
+        console.log('Database "Todos" ready to go!');
+});   
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {

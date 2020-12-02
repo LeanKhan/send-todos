@@ -23,3 +23,8 @@ Click `Show` in the header to see your app live. Updates to your code will insta
 ## Made by [Glitch](https://glitch.com/)
 
 \ ゜ o ゜)ノ
+
+
+### Requirements
+
+- It should be able to add a todo with todo, to, from, created date
