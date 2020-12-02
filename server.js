@@ -24,7 +24,7 @@ const db = new sqlite3.Database(dbFile);
 // if ./.data/sqlite.db does not exist, create it, otherwise print records to console
 db.serialize(() => {
     db.run(
-      "CREATE TABLE Todos if not exists (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT)"
+      "CREATE TABLE IF NOT EXISTS Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT)"
     );
         console.log("New table Dreams created!");
 
@@ -68,7 +68,7 @@ app.get("/todos", (request, response) => {
     if(err) {
       return response.send(err);
     }
-    response.send(JSON.stringify(rows));
+    response.send();
   });
 });
 
@@ -91,7 +91,7 @@ app.post("/addDream", (request, response) => {
 
 // endpoint to send todo to user
 app.post("/new", (request, response) => {
-  console.log(`add to dreams ${request.body}`);
+  console.log(`add to dreams ${request.body.todo}`);
 
   // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
   if (!process.env.DISALLOW_WRITE) {
@@ -104,6 +104,8 @@ app.post("/new", (request, response) => {
       }
     });
   }
+  
+  response.send(`<p>Todo added successfully!</p><p><a href="/">home</a></p>`)
 });
 
 // endpoint to clear dreams from the database
