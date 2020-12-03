@@ -91,13 +91,14 @@ app.post("/new", (request, response) => {
   // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
   if (!process.env.DISALLOW_WRITE) {
     const cleansedTodo = cleanseString(request.body.todo);
-    db.run(`INSERT INTO Todos (todo) VALUES (?)`, cleansedTodo, error => {
+    db.run(`INSERT INTO Todos (todo, to, from, completed, created) VALUES (?, ?, ?, ?, ?)`, [cleansedTodo, "1", "2", 3, new Date()], error => {
       if (error) {
-        response.send({ message: "error!" });
-      } else {
-        response.send({ message: "success" });
+        console.log(error)
+        return response.send({ message: "error!", error });
       }
     });
+    
+    db.close();
   }
 
   response.send(`<p>Todo added successfully!</p><p><a href="/todos">todos</a>
