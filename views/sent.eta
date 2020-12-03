@@ -14,6 +14,8 @@
   </head>
   <body>
     <h3>Todos</h3>
+    <p><a href="/">new todo</a></p>
+    
      <ul>
 <% it.todos.forEach(function(todo){ %>
   <li>
