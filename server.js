@@ -45,19 +45,24 @@ app.get("/", (req, res) => {
 app.get("/sent", (req, res) => {
   db.todos.find({}, function(err, todos) {
     // Find all users in the collection
-    console.log(todos)
+    console.log(todos);
     res.render("sent", { todos }); // sends dbUsers back to the page
   });
 });
 
 // endpoint to edit todo
 app.post("/sent", (req, res) => {
-  // const id = req.body.
-//   db.update({ _id: 'id6' }, { $push: { fruits: 'banana' } }, {}, function () {
-//   // Now the fruits array is ['apple', 'orange', 'pear', 'banana']
-// });
-  
-  res.send(req.body)
+  const _id = Object.keys(req.body)[0].split("-")[1];
+
+  db.todos.update(
+    { _id },
+    { $set: { completed: req.body, modified: new Date() } },
+    {},
+    function() {
+      // Now the fruits array is ['apple', 'orange', 'pear', 'banana']
+      res.redirect("/sent");
+    }
+  );
 });
 
 // endpoint to send todo to user
@@ -76,7 +81,9 @@ app.post("/new", (request, response) => {
       else if (todoAdded) console.log("New user inserted in the database");
     }
   );
-  response.status(200).send("<p>Todo created successfully!</p><p><a href='/'>home</a></p>");
+  response
+    .status(200)
+    .send("<p>Todo created successfully!</p><p><a href='/'>home</a></p>");
 });
 
 // endpoint to clear dreams from the database
