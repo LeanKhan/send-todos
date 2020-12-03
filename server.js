@@ -11,6 +11,12 @@ const eta = require("eta");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.engine("eta", eta.renderFile);
+
+app.set("view engine", "eta");
+
+app.set("views", "./views");
+
 // we've started you off with Express,
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
@@ -64,14 +70,15 @@ app.get("/abc", (request, response) => {
 });
 
 // endpoint to get all the dreams in the database
-app.get("/todos", (request, response) => {
-  console.log("here :)");
+app.get("/todos", (req, res) => {sentnsole.log("here :)");
   db.all("SELECT * from Todos", (err, rows) => {
     if (err) {
-      return response.send(err);
+      return res.send(err);
     }
 
-    response.send(JSON.stringify(rows));
+    res.render("sent", {
+   todos: rows
+  })
   });
 });
 

@@ -1,0 +1,7 @@
+<div>
+  <ul>
+<% todos.forEach(function(todo){ %>
+  <%= todo %>
+<% }) %>  
+</ul>
+</div>
