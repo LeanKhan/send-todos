@@ -33,6 +33,8 @@ Click `Show` in the header to see your app live. Updates to your code will insta
 
 [ ] Todos should be added with to, from, created and completed fields
 
+[ ] Users record should be created as 
+
 [ ] It should render sent todos by user
 
 [ ] It should render received todos by user
