@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
 });
 
 // endpoint to get all the dreams in the database
-app.get("/todos", (req, res) => {
+app.get("/sent", (req, res) => {
   db.todos.find({}, function(err, todos) {
     // Find all users in the collection
     res.render("sent", { todos }); // sends dbUsers back to the page
