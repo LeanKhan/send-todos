@@ -32,13 +32,13 @@ Click `Show` in the header to see your app live. Updates to your code will insta
 [x] It should be able to render todos you added
 
 [ ] Todos should be added with to, from, created and completed fields
-
-[ ] Users record should be created as 
-
+ 
 [ ] It should render sent todos by user
 
 [ ] It should render received todos by user
 
 ---- v0.2
 
-[ ] Should be able to verify person sending the todo
+[ ] Users record should be created as they create their first todo
+
+[ ] Users should verify their emails first tho before the todos are saved (?) or sent
