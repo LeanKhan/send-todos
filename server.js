@@ -66,7 +66,8 @@ app.get("/", (request, response) => {
   response.sendFile(`${__dirname}/views/index.html`);
 });
 
-app.get("/abc", (request, response) => {
+app.get("/alter", (request, response) => {
+  db.run('ALTER TABLE Todos ADD COLUMN to TEXT;')
   response.send("yo!");
 });
 
