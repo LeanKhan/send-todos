@@ -45,8 +45,14 @@ app.get("/", (req, res) => {
 app.get("/sent", (req, res) => {
   db.todos.find({}, function(err, todos) {
     // Find all users in the collection
+    console.log(todos)
     res.render("sent", { todos }); // sends dbUsers back to the page
   });
+});
+
+// endpoint to edit todo
+app.post("/sent", (req, res) => {  
+  res.send(req.body)
 });
 
 // endpoint to send todo to user

@@ -23,7 +23,7 @@ p {
   max-width: 600px;
 }
 
-form {
+form.glitch-form {
   margin-bottom: 25px;
   padding: 15px;
   background-color: cyan;
@@ -33,7 +33,7 @@ form {
   border-radius: 3px;
 }
 
-input {
+input.glitch-input {
   display: block;
   margin-bottom: 10px;
   padding: 5px;

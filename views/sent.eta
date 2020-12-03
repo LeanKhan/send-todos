@@ -15,18 +15,23 @@
   <body>
     <h3>Todos</h3>
     <p><a href="/">new todo</a></p>
-    <form method="GET" action="done">
-<ul style="list-style-type: none;">
-<% it.todos.forEach(function(todo){ %>
-  <li>
-
-<label><input type="checkbox" name="todo-<%= todo.todo._id %>" onchange="this.form.submit()"><%= todo.todo %></label>
-  <i>[To] <%= todo.from %></i>
-  <br/>
-  <small><%= new Date(todo.created).toLocaleString() %></small>
-  </li>
-<% }) %>  
-</ul>    
-    </form>
-  </body>
+<form method="POST">
+  <ul style="list-style-type: none;">
+  <% it.todos.forEach(function(todo){ %>
+    <li>
+      <h4>
+        <label>
+          <input type="checkbox" name="todo-<%= todo._id %>" onchange="this.form.submit()" <%= todo.completed && 'true' %>"><%= todo.todo %>
+        </label>
+      </h5>
+      <div style="color:grey">
+        <small><i><%= todo.from %></i></small>
+        <br/>
+        <small><%= new Date(todo.created).toLocaleString() %></small>
+      </div>
+    </li>
+  <% }) %>  
+  </ul>    
+</form>
+</body>
 </html>
