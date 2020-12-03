@@ -26,12 +26,15 @@ app.use(express.static("public"));
 // init sqlite db
 const dbFile = "./.data/sqlite.db";
 const exists = fs.existsSync(dbFile);
-const Datastore = require('nedb');
-    // Security note: the database is saved to the file `datafile` on the local filesystem. It's deliberately placed in the `.data` directory
-    // which doesn't get copied if someone remixes the project.
-const t_db = new Datastore({ filename: '.data/todos-datafile', autoload: true });
+const Datastore = require("nedb");
+// Security note: the database is saved to the file `datafile` on the local filesystem. It's deliberately placed in the `.data` directory
+// which doesn't get copied if someone remixes the project.
+const t_db = new Datastore({
+  filename: ".data/todos-datafile",
+  autoload: true
+});
 
-const db = {todos: t_db};
+const db = { todos: t_db };
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", (req, res) => {
@@ -40,24 +43,33 @@ app.get("/", (req, res) => {
 
 // endpoint to get all the dreams in the database
 app.get("/todos", (req, res) => {
-  db.todos.find({}, function (err, todos) { // Find all users in the collection
-    res.render("sent", {todos}); // sends dbUsers back to the page
+  db.todos.find({}, function(err, todos) {
+    // Find all users in the collection
+    res.render("sent", { todos }); // sends dbUsers back to the page
   });
 });
 
 // endpoint to send todo to user
 app.post("/new", (request, response) => {
-   db.todos.insert({ todo: request.body.todo, from: request.body.from, to: request.body.to}, function (err, todoAdded) {
-    if(err) console.log("There's a problem with the database: ", err);
-    else if(todoAdded) console.log("New user inserted in the database");
-  });
-  response.status(200).send('Todo created successfully!');
+  db.todos.insert(
+    {
+      todo: request.body.todo,
+      from: request.body.from,
+      to: request.body.to,
+      created: new Date(),
+      completed: false,
+      ignored: false
+    },
+    function(err, todoAdded) {
+      if (err) console.log("There's a problem with the database: ", err);
+      else if (todoAdded) console.log("New user inserted in the database");
+    }
+  );
+  response.status(200).send("<p>Todo created successfully!</p><p><a href='/'>home</a></p>");
 });
 
 // endpoint to clear dreams from the database
-app.get("/clearTodos", (request, response) => {
-  
-});
+app.get("/clearTodos", (request, response) => {});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, () => {

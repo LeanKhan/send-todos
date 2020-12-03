@@ -16,12 +16,14 @@
     <h3>Todos</h3>
     <p><a href="/">new todo</a></p>
     
-     <ul>
+     <ul style="list-style-type: none;">
 <% it.todos.forEach(function(todo){ %>
   <li>
-  <b><%= todo.to %></b>
-  <%= todo.todo %>
-  <i><%= todo.from %></i>
+  
+  <h5>[ ] <%= todo.todo %></h5>
+  <i>[To] <%= todo.from %></i>
+  <br/>
+  <small><%= new Date(todo.created).toLocaleString() %></small>
   </li>
 <% }) %>  
 </ul>
