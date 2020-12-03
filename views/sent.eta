@@ -19,7 +19,9 @@
      <ul>
 <% it.todos.forEach(function(todo){ %>
   <li>
+  <b><%= todo.to %></b>
   <%= todo.todo %>
+  <i><%= todo.from %></i>
   </li>
 <% }) %>  
 </ul>
