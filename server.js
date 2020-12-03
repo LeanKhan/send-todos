@@ -62,13 +62,21 @@ db.serialize(() => {
 });
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  response.sendFile(`${__dirname}/views/index.html`);
+app.get("/", (req, res) => {
+  res.sendFile(`${__dirname}/views/index.html`);
 });
 
-app.get("/alter", (request, response) => {
-  db.run('ALTER TABLE Todos ADD COLUMN to TEXT;')
-  response.send("yo!");
+app.get("/alter", (req, res) => {
+  const sql = `ALTER TABLE Todos
+              ADD COLUMN from text`;
+  db.run(sql, function(err) {
+  if (err) {
+    console.log(err)
+    return res.send(err);
+  }
+  console.log(`Row(s) updated: ${this.changes}`);
+
+});
 });
 
 // endpoint to get all the dreams in the database
