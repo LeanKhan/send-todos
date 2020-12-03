@@ -26,123 +26,38 @@ app.use(express.static("public"));
 // init sqlite db
 const dbFile = "./.data/sqlite.db";
 const exists = fs.existsSync(dbFile);
-const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database(dbFile);
+const Datastore = require('nedb');
+    // Security note: the database is saved to the file `datafile` on the local filesystem. It's deliberately placed in the `.data` directory
+    // which doesn't get copied if someone remixes the project.
+const t_db = new Datastore({ filename: '.data/todos-datafile', autoload: true });
 
-// if ./.data/sqlite.db does not exist, create it, otherwise print records to console
-if(!exists){
-  db.serialize(() => {
-  db.run(
-    "CREATE TABLE IF NOT EXISTS Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT, from TEXT, to TEXT, completed INTEGER)"
-  );
-  console.log("New table Dreams created!");
-});
-// insert default dreams
-db.serialize(() => {
-  const created = new Date();
-  db.run(
-    `INSERT INTO Todos (todo, to, from, completed, created) VALUES ("Find and count some sheep", "emmanuel.segunlean@aun.edu.ng", "eslean20@gmail.com", "1", ${created}`
-  );
-});
-}
-
-
-db.serialize(() => {
-  db.each("SELECT * from Todos", (err, row) => {
-    if (err) {
-      return console.error(err);
-    }
-
-    if (row) {
-      console.log(`record: ${row.todo}`);
-    }
-  });
-
-  console.log('Database "Todos" ready to go!');
-});
+const db = {todos: t_db};
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", (req, res) => {
   res.sendFile(`${__dirname}/views/index.html`);
 });
 
-app.get("/alter", (req, res) => {
-  const sql = `ALTER TABLE Todos
-              ADD COLUMN from text`;
-  db.run(sql, function(err) {
-  if (err) {
-    console.log(err)
-    return res.send(err);
-  }
-  console.log(`Row(s) updated: ${this.changes}`);
-
-});
-});
-
 // endpoint to get all the dreams in the database
 app.get("/todos", (req, res) => {
-  db.all("SELECT * from Todos", (err, rows) => {
-    if (err) {
-      return res.send(err);
-    }
-    
-
-    res.render("sent", {
-   todos: rows
-  })
+  db.todos.find({}, function (err, todos) { // Find all users in the collection
+    res.send(todos); // sends dbUsers back to the page
   });
 });
 
 // endpoint to send todo to user
 app.post("/new", (request, response) => {
-  console.log(`add to dreams ${request.body.todo}`);
-
-  // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
-  if (!process.env.DISALLOW_WRITE) {
-    const cleansedTodo = cleanseString(request.body.todo);
-    db.run(`INSERT INTO Todos VALUES(?, ?, ?, ?, ?)`, [cleansedTodo, "1", "2", 3, new Date()], error => {
-      if (error) {
-        console.log(error)
-        return response.send({ message: "error!", error });
-      }
-    });
-    
-    db.close();
-  }
-
-  response.send(`<p>Todo added successfully!</p><p><a href="/todos">todos</a>
-  </p><p><a href="/">new todo</a></p>`);
+   db.todos.insert({ todo: request.body.todo, from: request.body.from, to: request.body.to}, function (err, todoAdded) {
+    if(err) console.log("There's a problem with the database: ", err);
+    else if(todoAdded) console.log("New user inserted in the database");
+  });
+  response.status(200).send('Todo created successfully!');
 });
 
 // endpoint to clear dreams from the database
 app.get("/clearTodos", (request, response) => {
-  // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
-  if (!process.env.DISALLOW_WRITE) {
-    db.each(
-      "SELECT * from Todos",
-      (err, row) => {
-        console.log("row", row);
-        db.run(`DELETE FROM Todos WHERE ID=?`, row.id, error => {
-          if (row) {
-            console.log(`deleted row ${row.id}`);
-          }
-        });
-      },
-      err => {
-        if (err) {
-          response.send({ message: "error!" });
-        } else {
-          response.send({ message: "success" });
-        }
-      }
-    );
-  }
+  
 });
-
-// helper function that prevents html/css/script malice
-const cleanseString = function(string) {
-  return string.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-};
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, () => {
