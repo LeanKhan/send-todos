@@ -29,7 +29,7 @@ Click `Show` in the header to see your app live. Updates to your code will insta
 
 [x] It should be able to add a todo
 
-[ ] It should be able to render todos you added
+[x] It should be able to render todos you added
 
 [ ] Todos should be added with to, from, created and completed fields
 

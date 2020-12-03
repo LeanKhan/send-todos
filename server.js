@@ -70,33 +70,17 @@ app.get("/abc", (request, response) => {
 });
 
 // endpoint to get all the dreams in the database
-app.get("/todos", (req, res) => {sentnsole.log("here :)");
+app.get("/todos", (req, res) => {
   db.all("SELECT * from Todos", (err, rows) => {
     if (err) {
       return res.send(err);
     }
+    
 
     res.render("sent", {
    todos: rows
   })
   });
-});
-
-// endpoint to add a dream to the database
-app.post("/addDream", (request, response) => {
-  console.log(`add to dreams ${request.body}`);
-
-  // DISALLOW_WRITE is an ENV variable that gets reset for new projects so you can write to the database
-  if (!process.env.DISALLOW_WRITE) {
-    const cleansedTodo = cleanseString(request.body.todo);
-    db.run(`INSERT INTO Todos (todo) VALUES (?)`, cleansedTodo, error => {
-      if (error) {
-        response.send({ message: "error!" });
-      } else {
-        response.send({ message: "success" });
-      }
-    });
-  }
 });
 
 // endpoint to send todo to user
@@ -115,7 +99,8 @@ app.post("/new", (request, response) => {
     });
   }
 
-  response.send(`<p>Todo added successfully!</p><p><a href="/">home</a></p>`);
+  response.send(`<p>Todo added successfully!</p><p><a href="/todos">todos</a>
+  </p><p><a href="/">new todo</a></p>`);
 });
 
 // endpoint to clear dreams from the database
