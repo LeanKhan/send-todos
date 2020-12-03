@@ -51,7 +51,12 @@ app.get("/sent", (req, res) => {
 });
 
 // endpoint to edit todo
-app.post("/sent", (req, res) => {  
+app.post("/sent", (req, res) => {
+  // const id = req.body.
+//   db.update({ _id: 'id6' }, { $push: { fruits: 'banana' } }, {}, function () {
+//   // Now the fruits array is ['apple', 'orange', 'pear', 'banana']
+// });
+  
   res.send(req.body)
 });
 
