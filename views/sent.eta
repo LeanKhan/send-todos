@@ -16,13 +16,13 @@
     <h3>Todos</h3>
     <p><a href="/">new todo</a></p>
 <form method="POST">
+<input type="hidden" id="hidden">
   <ul style="list-style-type: none;">
   <% it.todos.forEach(function(todo){ %>
     <li>
       <h4>
         <label>
-          <input type="hidden" name="todo-<%= todo._id %>-<%= todo.completed %>" value="true">
-          <input type="checkbox" name="todo-<%= todo._id %>-<%= todo.completed %>" value="false" onchange="this.form.submit()" <%= todo.completed && 'checked' %> ><%= todo.todo %>
+          <input type="checkbox" name="todo-<%= todo._id %>-<%= todo.completed %>" value="false" onchange="stuff(<%= todo._id %>)" <%= todo.completed && 'checked' %> ><%= todo.todo %>
         </label>
       </h5>
       <div style="color:grey">
@@ -34,5 +34,7 @@
   <% }) %>  
   </ul>    
 </form>
+
+    <script src="client.js" defer></script>
 </body>
 </html>
