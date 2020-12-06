@@ -56,6 +56,8 @@ app.post("/sent", (req, res) => {
   const _id = array[1];
   const completed = array[2] != "true";
   
+  console.log(req.body)
+  
   console.log(completed, _id);
 
   db.todos.update(

@@ -21,7 +21,8 @@
     <li>
       <h4>
         <label>
-          <input type="checkbox" name="todo-<%= todo._id %>-<%= todo.completed %>" onchange="this.form.submit()" <%= todo.completed && 'checked' %> ><%= todo.todo %>
+          <input type="hidden" name="todo-<%= todo._id %>-<%= todo.completed %>" value="true">
+          <input type="checkbox" name="todo-<%= todo._id %>-<%= todo.completed %>" value="false" onchange="this.form.submit()" <%= todo.completed && 'checked' %> ><%= todo.todo %>
         </label>
       </h5>
       <div style="color:grey">
