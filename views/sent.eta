@@ -24,9 +24,11 @@
         <label>
           <input type="checkbox" name="todo-<%= todo._id %>-<%= todo.completed %>" value="false" onchange="stuff('<%= todo._id %>', <%= todo.completed %>)" <%= todo.completed && 'checked' %> ><%= todo.todo %>
         </label>
-      </h5>
+        
+        <button onclick="deleteTodo('<%= todo._id %>')" style="float: right"> delete </button>
+      </h4>
       <div style="color:grey">
-        <small><i><%= todo.from %></i>id: <%= todo._id %> </small>
+        <small><i><%= todo.from %></i></small>
         <br/>
         <small><%= new Date(todo.created).toLocaleString() %></small>
       </div>

@@ -52,25 +52,13 @@ app.get("/sent", (req, res) => {
 
 // endpoint to edit todo
 app.post("/sent", (req, res) => {
-  const array = Object.keys(req.body)[1].split("-");
-  const _id = array[1];
-  const completed = array[2] != "true";
   
-  let id, checked;
-  
-  try {
-    const checked = JSON.parse(req.body);  
-  } catch (err) {
-    console.error(err);
-  }
+    const {checked, id} = JSON.parse(req.body.changed);
     
-  console.log(checked)
-  
-  console.log(completed, _id);
 
   db.todos.update(
-    { _id },
-    { $set: { completed, modified: new Date() } },
+    { _id: id },
+    { $set: { completed: !checked, modified: new Date() } },
     {},
     function() {
       // Now the fruits array is ['apple', 'orange', 'pear', 'banana']

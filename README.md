@@ -33,7 +33,7 @@ Click `Show` in the header to see your app live. Updates to your code will insta
 
 [x] Todos should be added with to, from, created and completed fields
 
-[ ] Should be able to mark todos as completed (?)
+[x] Should be able to mark todos as completed (?)
 
 [ ] Should be able to delete todos
  

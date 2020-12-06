@@ -5,3 +5,10 @@ function stuff(id, checked) {
 
   document.forms[0].submit();
 }
+
+function deleteTodo(id) {
+  let hidden = document.getElementById("hidden");
+  hidden.value = JSON.stringify({id});
+
+  document.forms[0].submit();
+}
