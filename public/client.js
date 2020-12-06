@@ -1,7 +1,7 @@
-function stuff(id) {
+function stuff(id, checked) {
   console.log("running: ", id);
   let hidden = document.getElementById("hidden");
-  hidden.value = id;
+  hidden.value = JSON.stringify({checked, id});
 
-  document.form.submit();
+  document.forms[0].submit();
 }

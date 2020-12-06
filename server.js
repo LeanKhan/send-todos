@@ -52,11 +52,19 @@ app.get("/sent", (req, res) => {
 
 // endpoint to edit todo
 app.post("/sent", (req, res) => {
-  const array = Object.keys(req.body)[0].split("-");
+  const array = Object.keys(req.body)[1].split("-");
   const _id = array[1];
   const completed = array[2] != "true";
   
-  console.log(req.body)
+  let id, checked;
+  
+  try {
+    const checked = JSON.parse(req.body);  
+  } catch (err) {
+    console.error(err);
+  }
+    
+  console.log(checked)
   
   console.log(completed, _id);
 
