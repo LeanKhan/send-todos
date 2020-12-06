@@ -21,11 +21,11 @@
     <li>
       <h4>
         <label>
-          <input type="checkbox" name="todo-<%= todo._id %>" onchange="this.form.submit()" <%= todo.completed && 'checked' %> ><%= todo.todo %>
+          <input type="checkbox" name="todo-<%= todo._id %>-<%= todo.completed %>" onchange="this.form.submit()" <%= todo.completed && 'checked' %> ><%= todo.todo %>
         </label>
       </h5>
       <div style="color:grey">
-        <small><i><%= todo.from %></i></small>
+        <small><i><%= todo.from %></i>id: <%= todo._id %> </small>
         <br/>
         <small><%= new Date(todo.created).toLocaleString() %></small>
       </div>

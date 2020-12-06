@@ -45,17 +45,18 @@ app.get("/", (req, res) => {
 app.get("/sent", (req, res) => {
   db.todos.find({}, function(err, todos) {
     // Find all users in the collection
-    console.log(todos);
+    // console.log(todos);
     res.render("sent", { todos }); // sends dbUsers back to the page
   });
 });
 
 // endpoint to edit todo
 app.post("/sent", (req, res) => {
-  const _id = Object.keys(req.body)[0].split("-")[1];
-  const completed = Object.values(req.body)[0] == "on";
+  const array = Object.keys(req.body)[0].split("-");
+  const _id = array[1];
+  const completed = array[2] != "true";
   
-  console.log(req.body)
+  console.log(completed, _id);
 
   db.todos.update(
     { _id },
